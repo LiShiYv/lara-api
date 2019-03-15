@@ -12,5 +12,10 @@
 */
 
 $router->get('/', function () use ($router) {
+
     return $router->app->version();
+
 });
+$router->post('/user','user\IndexController@info');
+$router->get('/center','user\IndexController@uCenter');
+$router->get('/redisapi','user\IndexController@apiRedis');
