@@ -19,3 +19,7 @@ $router->get('/', function () use ($router) {
 $router->post('/user','user\IndexController@info');
 $router->get('/center','user\IndexController@uCenter');
 $router->get('/redisapi','user\IndexController@apiRedis');
+$router->get('/curl','curl\IndexController');
+$router->get('/post','curl\curl');
+$router->get('/all','curl\pop');
+$router->get('/mds','curl\mds');

@@ -16,26 +16,64 @@ class IndexController extends Controller
 
     public function info(Request $request)
     {
-        // echo 1111;
-        $u = $request->input('u');
-        if ($u) {
-            $token = str_random(10);
-            $key = $this->redis_h_u_key . $u;
-            $redis_h_u_key = Redis::hSet($key, 'token', $token);
-            Redis::expire($key, 60 * 24 * 7);
-            $data = [
-                'errno' => 4001,
-                'msg' => $token
-            ];
-        } else {
-            $data = [
-                'errno' => 5200,
-                'msg' => 'HTTP_TOKEN'
+        //print_r($_POST);die;
+        $time=$_GET['t'];
+        $key='pass';
+        $api='AES-128-CBC';
+        $argc=OPENSSL_RAW_DATA;
+        $salt='sssss';
+        $iv=substr(md5($time.$salt),5,16);
+
+        $sign=base64_decode($_POST['sign']);
+        $data=$_POST['data'];
+        $pub_res=openssl_get_publickey(file_get_contents('./key/curl.key'));
+        $re=openssl_verify($data,$sign,$pub_res,OPENSSL_ALGO_SHA256);
+        var_dump($re);
+        if(!$re){
+            echo '验签失败';die;
+        }
+        $post_data=base64_decode($_POST['data']);
+
+        $dec_str=openssl_decrypt($post_data,$api,$key,$argc,$iv);
+        echo $dec_str;
+        if(1){
+            $time=time();
+            $response=[
+                'erron'=>0,
+                'msg'=>'ok',
+                //'data'=>'this is secret'
             ];
 
+            $iv2=substr(md5($time.$salt),5,16);
+            $enc_data=openssl_encrypt(json_encode($response),$api,$key,$argc,$iv2);
+            $arr=[
+                't'=>$time,
+                'data'=>base64_encode($enc_data)
+
+            ];
+            return $response;
+            //echo json_encode($arr);
         }
-        $res = json_encode($data);
-        print_r($res);
+
+//        $u = $request->input('u');
+//        if ($u) {
+//            $token = str_random(10);
+//            $key = $this->redis_h_u_key . $u;
+//            $redis_h_u_key = Redis::hSet($key, 'token', $token);
+//            Redis::expire($key, 60 * 24 * 7);
+//            $data = [
+//                'errno' => 4001,
+//                'msg' => $token
+//            ];
+//        } else {
+//            $data = [
+//                'errno' => 5200,
+//                'msg' => 'HTTP_TOKEN'
+//            ];
+//
+//        }
+//        $res = json_encode($data);
+//        print_r($res);
 
     }
 
@@ -110,4 +148,7 @@ public function apiRedis()
 //}
 
 }
+
+
+
 }
