@@ -6,6 +6,7 @@
  * Time: 16:38
  */
 namespace App\Http\Controllers\user;
+use App\Model\Cmsmodel;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
