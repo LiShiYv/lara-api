@@ -24,3 +24,5 @@ $router->get('/curl','curl\IndexController');
 $router->get('/post','curl\curl');
 $router->get('/all','curl\pop');
 $router->get('/mds','curl\mds');
+$router->post('/reg','user\IndexController@toreg');
+$router->post('/login','user\IndexController@login');

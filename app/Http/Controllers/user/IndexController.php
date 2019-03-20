@@ -157,6 +157,72 @@ public function api(){
         ];
         return $response;
 }
+public function toreg(Request $request){
+    // echo __METHOD__;
+     $u_name = $request->input('u_name');
 
+     $w = Cmsmodel::where(['u_name'=>$u_name])->first();
+     if($w){
+         die("用户名已存在");
+
+     }
+     $pass1=$request->input('u_pwd');
+     $pass2=$request->input('u_pwd1');
+     if($pass1 !==$pass2){
+         die( '密码必须保持一致');
+     };
+     $pass = password_hash($pass1,PASSWORD_BCRYPT);
+    // echo '<pre>';print_r($_POST);echo '</pre>';
+     $data=[
+         'u_name' => $request->input('u_name'),
+         'u_email' =>$request->input('u_email'),
+
+         'age' =>$request->input('u_age'),
+         'pwd'=>$pass,
+         'reg_time' =>time()
+     ];
+     $id=Cmsmodel::insertGetId($data);
+     //var_dump($id);
+     if($id){
+         setcookie('u_name',$u_name,time()+86400,'/','lsy.52self.cn',false,true);
+
+         setcookie('id',$id,time()+86400,'/','lsy.52self.cn',false,true);
+         header("Refresh:3;url=/center");
+         echo '注册成功 正在跳转';
+     }else{
+         echo '注册失败';
+        // header("Refresh:3;url=");
+     }
+ }
+ public function login(Request $request)
+ {
+     // echo __METHOD__;
+     // echo '<pre>';print_r($_POST);echo '</pre>';
+     $pass = $request->input('u_pwd');
+     $root=$request->input('u_name');
+
+     $id2 = Cmsmodel::where(['u_name'=>$root])->first();
+     //var_dump($id2);
+         if($id2){
+             if(password_verify($pass,$id2->pwd)){
+                 $token = substr(md5(time().mt_rand(1,99999)),10,10);
+                 setcookie('token',$token,time()+86400,'/','lsy.52self.cn',false,true);
+                 setcookie('u_name',$id2->u_name,time()+86400,'/','lsy.52self.cn',false,true);
+                 setcookie('id',$id2->id,time()+86400,'/','lsy.52self.cn',false,true);
+                 $request->session()->put('u_token',$token);
+                 $request->session()->put('u_name',$id2->u_name);
+                 $request->session()->put('id',$id2->id);
+
+                 header("Refresh:3;url=/center");
+                 echo '登录成功';
+             } else {
+                 die('密码或用户名错误');
+
+             }
+         }else{
+             die('用户不存在');
+         }
+
+     }
 
 }
