@@ -148,7 +148,15 @@ public function apiRedis()
 //}
 
 }
+public function api(){
 
+    $response = [
+            'errno' => 0,
+            'msg' => 'ok',
+
+        ];
+        return $response;
+}
 
 
 }
