@@ -28,7 +28,7 @@ class IndexController extends Controller
         $data=$_POST['data'];
         $pub_res=openssl_get_publickey(file_get_contents('./key/curl.key'));
         $re=openssl_verify($data,$sign,$pub_res,OPENSSL_ALGO_SHA256);
-        var_dump($re);
+        //var_dump($re);
         if(!$re){
             echo '验签失败';die;
         }
