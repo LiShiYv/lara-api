@@ -188,10 +188,10 @@ public function toreg(Request $request){
          setcookie('u_name',$u_name,time()+86400,'/','lsy.52self.cn',false,true);
 
          setcookie('id',$id,time()+86400,'/','lsy.52self.cn',false,true);
-         header("Refresh:3;url=/center");
-         echo '注册成功 正在跳转';
+        // header("Refresh:3;url=/center");
+         echo '注册成功';die;
      }else{
-         echo '注册失败';
+         echo '注册失败';die;
         // header("Refresh:3;url=");
      }
  }
@@ -214,8 +214,8 @@ public function toreg(Request $request){
                  $request->session()->put('u_name',$id2->u_name);
                  $request->session()->put('id',$id2->id);
 
-                 header("Refresh:3;url=/center");
-                 echo '登录成功';
+                 //header("Refresh:3;url=/center");
+                 echo '登录成功';die;
              } else {
                  die('密码或用户名错误');
 
