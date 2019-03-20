@@ -199,7 +199,7 @@ public function toreg(Request $request){
  {
      // echo __METHOD__;
      // echo '<pre>';print_r($_POST);echo '</pre>';
-     $pass = $request->input('u_pwd');
+     $pass =$request->input('u_pwd');
      $root=$request->input('u_name');
 
      $id2 = Cmsmodel::where(['u_name'=>$root])->first();
@@ -210,9 +210,9 @@ public function toreg(Request $request){
                  setcookie('token',$token,time()+86400,'/','lsy.52self.cn',false,true);
                  setcookie('u_name',$id2->u_name,time()+86400,'/','lsy.52self.cn',false,true);
                  setcookie('id',$id2->id,time()+86400,'/','lsy.52self.cn',false,true);
-                 $request->session()->put('u_token',$token);
-                 $request->session()->put('u_name',$id2->u_name);
-                 $request->session()->put('id',$id2->id);
+                //  $request->session()->put('u_token',$token);
+                //  $request->session()->put('u_name',$id2->u_name);
+                //  $request->session()->put('id',$id2->id);
 
                  //header("Refresh:3;url=/center");
                  echo '登录成功';die;
