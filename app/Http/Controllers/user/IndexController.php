@@ -227,4 +227,3 @@ public function toreg(Request $request){
 
      }
 
-}
