@@ -195,35 +195,41 @@ public function toreg(Request $request){
         // header("Refresh:3;url=");
      }
  }
- public function login(Request $request)
+ public function login()
  {
      // echo __METHOD__;
      // echo '<pre>';print_r($_POST);echo '</pre>';
-     $pass =$request->input('u_pwd');
-     $root=$request->input('u_name');
+     $pass =$_POST['u_pwd'];
+     $root=$_POST['u_name'];
 
      $id2 = Cmsmodel::where(['u_name'=>$root])->first();
+
      //var_dump($id2);
-         if($id2){
-             if(password_verify($pass,$id2->pwd)){
-                 $token = substr(md5(time().mt_rand(1,99999)),10,10);
-                 setcookie('token',$token,time()+86400,'/','lsy.52self.cn',false,true);
-                 setcookie('u_name',$id2->u_name,time()+86400,'/','lsy.52self.cn',false,true);
-                 setcookie('id',$id2->id,time()+86400,'/','lsy.52self.cn',false,true);
-                //  $request->session()->put('u_token',$token);
-                //  $request->session()->put('u_name',$id2->u_name);
-                //  $request->session()->put('id',$id2->id);
-
-                 //header("Refresh:3;url=/center");
-                 echo '登录成功';die;
-             } else {
-                 die('密码或用户名错误');
-
-             }
-         }else{
-             die('用户不存在');
+          if($id2){
+          if(password_verify($pass,$id2->pwd)){
+            $token = substr(md5(time().mt_rand(1,99999)),10,10);
+            setcookie('token',$token,time()+86400,'/','weiliang.com',false,true);
+            setcookie('id',$id2->id,time()+86400,'/','weiliang.com',false,true);
+            $redis_key_web='str:u:web:'.$id2->id;
+            Redis::set($redis_key_web,$token);
+            Redis::expire($redis_key_web,86400);
+              $response=[
+                  'errno'=>0,
+                  'msg'=>'登录成功'
+              ];
+              else{
+                  $response=[
+                      'erron'=>5001,
+                      'msg'=>'用户或密码不正确'
+                  ];
+              }
+          }else{
+            $response=[
+                'erron'=>4004,
+                'msg'=>'用户不存在'
+            ];
          }
-
+return $response
      }
 
 }
