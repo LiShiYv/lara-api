@@ -158,7 +158,7 @@ public function api(){
         ];
         return $response;
 }
-public function toreg(){
+public function reg(){
     // echo __METHOD__;
      $u_name = $_POST['u_name'];
 
