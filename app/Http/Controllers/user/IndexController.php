@@ -199,7 +199,7 @@ public function toreg(Request $request){
  {
       //echo __METHOD__;
      // echo '<pre>';print_r($_POST);echo '</pre>';die;
-     $pass =$_POST['u_pwd'];
+     $pass=$_POST['u_pwd'];
      $root=$_POST['u_name'];
 
      $id2 = Cmsmodel::where(['u_name'=>$root])->first();
@@ -207,8 +207,8 @@ public function toreg(Request $request){
      //var_dump($id2);
           if(password_verify($pass,$id2->pwd)){
             $token = substr(md5(time().mt_rand(1,99999)),10,10);
-            setcookie('token',$token,time()+86400,'/','weiliang.com',false,true);
-            setcookie('id',$id2->id,time()+86400,'/','weiliang.com',false,true);
+            setcookie('token',$token,time()+86400,'/','lsy.52self.cn',false,true);
+            setcookie('id',$id2->id,time()+86400,'/','lsy.52self.cn',false,true);
             $redis_key_web='str:u:pass:'.$id2->id;
             Redis::set($redis_key_web,$token);
             Redis::expire($redis_key_web,86400);
