@@ -197,8 +197,8 @@ public function toreg(Request $request){
  }
  public function login()
  {
-      echo __METHOD__;
-      echo '<pre>';print_r($_POST);echo '</pre>';die;
+      //echo __METHOD__;
+     // echo '<pre>';print_r($_POST);echo '</pre>';die;
      $pass =$_POST['u_pwd'];
      $root=$_POST['u_name'];
 
