@@ -205,7 +205,6 @@ public function toreg(Request $request){
      $id2 = Cmsmodel::where(['u_name'=>$root])->first();
 
      //var_dump($id2);
-          if($id2){
           if(password_verify($pass,$id2->pwd)){
             $token = substr(md5(time().mt_rand(1,99999)),10,10);
             setcookie('token',$token,time()+86400,'/','weiliang.com',false,true);
@@ -217,19 +216,15 @@ public function toreg(Request $request){
                   'errno'=>0,
                   'msg'=>'登录成功'
               ];
-              else{
+            }else{
                   $response=[
                       'erron'=>5001,
                       'msg'=>'用户或密码不正确'
                   ];
               }
-          }else{
-            $response=[
-                'erron'=>4004,
-                'msg'=>'用户不存在'
-            ];
-         }
-return $response
+              return $response;
+          }
+
      }
 
 }
