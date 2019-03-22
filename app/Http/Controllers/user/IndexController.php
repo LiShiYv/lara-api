@@ -172,11 +172,12 @@ public function toreg(){
      if($pass1 !==$pass2){
          die( '密码必须保持一致');
      };
+     $u_email=$_POST['u_email'];
      $pass = password_hash($pass1,PASSWORD_BCRYPT);
     // echo '<pre>';print_r($_POST);echo '</pre>';
      $data=[
-         'u_name' => $request->input('u_name'),
-         'u_email' =>$request->input('u_email'),
+         'u_name' => $u_name,
+         'u_email' =>$u_email,
          'pwd'=>$pass,
          'reg_time' =>time()
      ];
