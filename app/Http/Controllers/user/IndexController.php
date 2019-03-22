@@ -158,17 +158,17 @@ public function api(){
         ];
         return $response;
 }
-public function toreg(Request $request){
+public function toreg(){
     // echo __METHOD__;
-     $u_name = $request->input('u_name');
+     $u_name = $_POST['u_name'];
 
      $w = Cmsmodel::where(['u_name'=>$u_name])->first();
      if($w){
          die("用户名已存在");
 
      }
-     $pass1=$request->input('u_pwd');
-     $pass2=$request->input('u_pwd1');
+     $pass1=$_POST['u_pwd'];
+     $pass2=$_POST['u_pwd1'];
      if($pass1 !==$pass2){
          die( '密码必须保持一致');
      };
@@ -177,8 +177,6 @@ public function toreg(Request $request){
      $data=[
          'u_name' => $request->input('u_name'),
          'u_email' =>$request->input('u_email'),
-
-         'age' =>$request->input('u_age'),
          'pwd'=>$pass,
          'reg_time' =>time()
      ];
@@ -189,12 +187,20 @@ public function toreg(Request $request){
 
          setcookie('id',$id,time()+86400,'/','lsy.52self.cn',false,true);
         // header("Refresh:3;url=/center");
-         echo '注册成功';die;
-     }else{
-         echo '注册失败';die;
+        $response=[
+            'errno'=>0,
+            'msg'=>'注册成功'
+        ];
+      }else{
+            $response=[
+                'erron'=>5001,
+                'msg'=>'注册失败'
+            ];
+        }
+        return $response;
         // header("Refresh:3;url=");
      }
- }
+ 
  public function login()
  {
       //echo __METHOD__;
