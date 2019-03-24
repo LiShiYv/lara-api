@@ -224,7 +224,10 @@ public function reg(){
               Redis::hSet($redis_key_web_token,'app',$token);
               $response=[
                   'errno'=>0,
-                  'msg'=>'登录成功'
+
+                  'msg'=>'登录成功',
+                  'token'=>$token,
+                  'id'=>$id2->id,
               ];
             }else{
                   $response=[
