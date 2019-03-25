@@ -228,6 +228,7 @@ public function reg(){
                   'msg'=>'登录成功',
                   'token'=>$token,
                   'id'=>$id2->id,
+                  'u_name'=>$root
               ];
             }else{
                   $response=[
