@@ -222,6 +222,7 @@ public function reg(){
               $redis_key_web_token='str:u:token:'.$id2->id;
               Redis::del($redis_key_web_token);
               Redis::hSet($redis_key_web_token,'app',$token);
+              Cmsmodel::where(['id'=>$id2->id])->update(['is_login'=>1]);
               $response=[
                   'errno'=>0,
 
